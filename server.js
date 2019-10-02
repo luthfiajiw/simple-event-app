@@ -110,6 +110,15 @@ app.post('/event/edit/:id', (req,res) => {
   });
 })
 
+// Delete event
+app.get('/event/delete/:id', (req,res) => {
+  con.query("DELETE FROM events WHERE id = "+req.params.id+"", (err, result) => {
+    if (result.affectedRows) {
+      res.redirect(baseURL)
+    }
+  })
+})
+
 // Connect to the server
 const server = app.listen(3000, () => {
   console.log('Your port is listening to 3000');

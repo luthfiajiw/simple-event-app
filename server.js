@@ -8,7 +8,6 @@ const dateFormat = require('dateformat');
 let now = new Date();
 
 const app = express();
-
 // Parse all form data
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -20,6 +19,7 @@ app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/tether/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use(express.static(__dirname + '/views'))
 
 // Connect to mysql
 // Host - when in production mode change this to your host

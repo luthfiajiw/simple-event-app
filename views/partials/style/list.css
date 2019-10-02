@@ -1,0 +1,21 @@
+.td-id {
+  width: 1%;
+  text-align: center;
+}
+
+.td-name {
+  width: 49%;
+}
+
+.td-desc {
+  width: 20%;
+}
+
+.td-loc {
+  width: 10%;
+}
+
+.td-act {
+  width: 20%;
+  text-align: center;
+}

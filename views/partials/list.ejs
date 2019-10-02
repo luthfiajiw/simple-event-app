@@ -1,0 +1,59 @@
+<div class="row py-3">
+  <div class="col s12">
+    <% if (items.length > 0) { %>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="td-id">
+                ID
+              </th>
+              <th class="td-name">
+                Name
+              </th>
+              <th class="td-desc">
+                Description
+              </th>
+              <th class="td-loc">
+                Location
+              </th>
+              <th class="td-act" colspan="2">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% items.forEach(function(item, index){ %>
+              <tr>
+                <td class="td-id">
+                  <%= index + 1 %>
+                </td>
+                <td class="td-name">
+                  <%= item.name %>
+                </td>
+                <td class="td-desc">
+                  <%= item.description %>
+                </td>
+                <td class="td-loc">
+                  <%= item.location %>
+                </td>
+                <td class="td-act" colspan="2">
+                  <a href="/event/edit/<%= item.id %>" class="btn btn-primary">
+                    Edit
+                  </a>
+                  <a href="/event/delete/<%= item.id %>" class="btn btn-danger">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <p class="text-warning">
+        <strong>There are no records available</strong>
+      </p>
+    <% } %>
+  </div>
+</div>

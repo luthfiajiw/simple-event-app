@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./server.js"
   },
   "author": "Luthfi Aji",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "tether": "^1.4.7"
   },
   "devDependencies": {
-    "@types/mysql": "^2.15.7"
+    "@types/mysql": "^2.15.7",
+    "nodemon": "^1.19.3"
   }
 }

@@ -2,6 +2,8 @@ const express = require('express');
 const http = require('http');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const moment = require('moment');
+moment().format();
 
 // Used for formatting dates
 const dateFormat = require('dateformat');
@@ -49,6 +51,45 @@ app.get('/', (req, res) => {
       pageTitle: 'Event List',
       items: result,
     });
+  })
+})
+
+// Render add new event page
+app.get('/event/add', (req, res) => {
+  res.render('pages/add-event.ejs', {
+    siteTitle: siteTitle,
+    pageTitle: 'Add New Event',
+    items: '',
+  });
+})
+
+// Post new event
+app.post('/event/add', (req, res) => {
+  let query = "INSERT INTO `events` (name, start_date, end_date, description, location) VALUES (";
+      query += " '"+req.body.name+"',";
+      query += " DATE_FORMAT('" + req.body.start_date +"', '%Y-%m-%d %H:%i:%s'),";
+      query += " DATE_FORMAT('" + req.body.end_date +"', '%Y-%m-%d %H:%i:%s'),";
+      query += " '"+req.body.description+"',";
+      query += " '"+req.body.location+"');"
+  
+  con.query(query, (err, result) => {
+    res.redirect(baseURL);
+  });
+})
+
+// Get event & render edit event page
+app.get('/event/edit/:id', (req, res) => {
+  // Get the record base on ID
+  con.query("SELECT * FROM events WHERE id='"+req.params.id+"'", (err, result) => {
+    result[0].start_date = dateFormat(result[0].start_date, "yyyy-mm-dd") + "T"+ dateFormat(result[0].start_date, "HH:MM");
+    result[0].end_date = dateFormat(result[0].end_date, "yyyy-mm-dd") +"T"+ dateFormat(result[0].end_date, "HH:MM");
+    console.log(result);
+    
+    res.render('pages/edit-event', {
+      siteTitle: siteTitle,
+      pageTitle: 'Editing event : ' + result[0].name,
+      item: result,
+    })
   })
 })
 

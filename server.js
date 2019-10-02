@@ -69,8 +69,8 @@ app.post('/event/add', (req, res) => {
       query += " '"+req.body.name+"',";
       query += " DATE_FORMAT('" + req.body.start_date +"', '%Y-%m-%d %H:%i:%s'),";
       query += " DATE_FORMAT('" + req.body.end_date +"', '%Y-%m-%d %H:%i:%s'),";
-      query += " '"+req.body.description+"',";
-      query += " '"+req.body.location+"');"
+      query += " '"+req.body.description.trim()+"',";
+      query += " '"+req.body.location.trim()+"');"
   
   con.query(query, (err, result) => {
     res.redirect(baseURL);
@@ -91,6 +91,23 @@ app.get('/event/edit/:id', (req, res) => {
       item: result,
     })
   })
+})
+
+// Post updated event
+app.post('/event/edit/:id', (req,res) => {
+  let query = "UPDATE `events` SET";
+      query += " `name` = '"+req.body.name+"',";
+      query += " `start_date` = DATE_FORMAT('" + req.body.start_date +"', '%Y-%m-%d %H:%i:%s'),";
+      query += " `end_date` = DATE_FORMAT('" + req.body.end_date +"', '%Y-%m-%d %H:%i:%s'),";
+      query += " `description` = '"+req.body.description.trim()+"',";
+      query += " `location` = '"+req.body.location.trim()+"'";
+      query += " WHERE id = "+req.body.id+"";
+  
+  con.query(query, (err, result) => {
+    if (result.affectedRows) {
+      res.redirect(baseURL);
+    };
+  });
 })
 
 // Connect to the server

@@ -100,5 +100,12 @@ module.exports = function(app, siteTitle) {
         })
         .catch(err => console.log(err))
     }
-  })
+  });
+
+  // Logout handle
+  app.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('succes_msg', 'You are logout');
+    res.redirect('/')
+  });
 };

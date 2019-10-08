@@ -1,9 +1,13 @@
 const connDB = require('../models/connection')
 const dateFormat = require('dateformat');
+const passport = require('passport');
+
+const { ensureAuthenticated } = require('../config/ensureAuth')
 const EventModel = require('../models/event')
 
 module.exports = function(app, siteTitle, baseURL) {
-  app.get('/', (req, res) => {
+  // Render home page
+  app.get('/home', ensureAuthenticated, (req, res) => {
     const query = new EventModel();
 
     // Get datas

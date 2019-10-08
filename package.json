@@ -9,15 +9,22 @@
   "author": "Luthfi Aji",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
+    "connect-flash": "^0.1.1",
     "dateformat": "^3.0.3",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "express-partials": "^0.3.0",
+    "express-session": "^1.16.2",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "mysql": "^2.17.1",
+    "mysql2": "^1.7.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^5.19.4",
     "tether": "^1.4.7"
   },
   "devDependencies": {

@@ -8,50 +8,78 @@
           <form action="/register" method="POST">
             <div class="form-group">
               <label for="name">Name</label>
-              <input
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="far fa-user"></i>
+                  </span>
+                </div>
+                <input
                 type="name"
                 name="name"
                 placeholder="Enter your name"
                 class="form-control"
                 value=<% typeof name != 'undefined' ? name : '' %>
-              >
+                >
+              </div>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="far fa-envelope"></i>
+                  </span>
+                </div>
+                <input
                 type="email"
                 name="email"
                 placeholder="Enter your email"
                 class="form-control"
                 value=<% typeof email != 'undefined' ? email : '' %>
-              >
+                >
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="far fa-key"></i>
+                  </span>
+                </div>
+                <input
                 type="password"
                 name="password"
                 placeholder="Enter your password"
                 class="form-control"
                 value=<% typeof password != 'undefined' ? password : '' %>
-              >
+                >
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Confirm Password</label>
-              <input
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="far fa-key"></i>
+                  </span>
+                </div>
+                <input
                 type="password"
                 name="password2"
                 placeholder="Confirm your password"
                 class="form-control"
                 value=<% typeof password2 != 'undefined' ? password2 : '' %>
-              >
+                >
+              </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">
+            <button type="submit" class="btn btn-primary btn-block rounded">
               Register
             </button>
           </form>
-          <p class="mt-4">
+          <p class="mt-4 text-center">
             Have An Account? <a href='/'>Login</a>
           </p>
         </div>

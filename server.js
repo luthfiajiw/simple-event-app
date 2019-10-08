@@ -23,6 +23,7 @@ app.use('/js', express.static(__dirname + '/node_modules/tether/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use(express.static(__dirname + '/views'))
+app.use(express.static(__dirname + '/public'))
 
 // Global site title and base url
 const siteTitle = "Simple Event App"

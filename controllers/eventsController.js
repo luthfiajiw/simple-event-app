@@ -1,27 +1,29 @@
 const connDB = require('../models/connection')
 const dateFormat = require('dateformat');
 const passport = require('passport');
+const moment = require('moment');
 
-const { ensureAuthenticated } = require('../config/ensureAuth')
-const EventModel = require('../models/event')
+const connection = require('../config/connection');
+const { ensureAuthenticated } = require('../config/ensureAuth');
+const Event = require('../models/Event');
+const EventModel = require('../models/event');
 
 module.exports = function(app, siteTitle, baseURL) {
   // Render home page
   app.get('/home', ensureAuthenticated, (req, res) => {
-    const query = new EventModel();
-
     // Get datas
-    connDB.query(query.getEvents(), (err, result) => {
-      res.render('pages/index', {
-        siteTitle,
-        pageTitle: 'Event List',
-        items: result,
+    Event.findAll({ where: { userUuid: req.user.uuid } })
+      .then(event => {
+        res.render('pages/index', {
+          siteTitle,
+          pageTitle: 'Event List',
+          items: event,
+        });
       });
-    });
   });
 
   // Render add new event page
-  app.get('/event/add', (req, res) => {
+  app.get('/event/add', ensureAuthenticated, (req, res) => {
     res.render('pages/add-event.ejs', {
       siteTitle: siteTitle,
       pageTitle: 'Add New Event',
@@ -31,52 +33,56 @@ module.exports = function(app, siteTitle, baseURL) {
 
   // Post new event
   app.post('/event/add', (req, res) => {
-    const query = new EventModel(req);
+    const newEvent = Event.build({
+      userUuid: req.user.uuid,
+      name: req.body.name,
+      start_date: req.body.start_date,
+      end_date: req.body.end_date,
+      location: req.body.location.trim(),
+      description: req.body.description.trim(),
+    })
 
-    connDB.query(query.postEvent(), (err, result) => {
-      if (err) {
-        console.log(err);
-      }
+    newEvent.save().then(() => {
       res.redirect(baseURL);
     });
   });
 
   // Get data
-  app.get('/event/edit/:id', (req, res) => {
-    const query = new EventModel(req);
-
-    connDB.query(query.getEvent(), (err, result) => {
-      result[0].start_date = dateFormat(result[0].start_date, "yyyy-mm-dd") + "T"+ dateFormat(result[0].start_date, "HH:MM");
-      result[0].end_date = dateFormat(result[0].end_date, "yyyy-mm-dd") +"T"+ dateFormat(result[0].end_date, "HH:MM");
-
-      // Render edit event page
-      res.render('pages/edit-event', {
-        siteTitle: siteTitle,
-        pageTitle: 'Editing event : ' + result[0].name,
-        item: result,
-      });
-    });
+  app.get('/event/edit/:uuid', ensureAuthenticated, (req, res) => {
+    Event.findAll({ where: { uuid: req.params.uuid } })
+      .then(event => {
+        event[0].dataValues.start_date = dateFormat(event[0].dataValues.start_date, "yyyy-mm-dd") + "T"+ dateFormat(event[0].dataValues.tart_date, "HH:MM");
+        event[0].dataValues.end_date = dateFormat(event[0].dataValues.end_date, "yyyy-mm-dd") +"T"+ dateFormat(event[0].dataValues.end_date, "HH:MM");
+        // Render edit event page
+        res.render('pages/edit-event', {
+          siteTitle: siteTitle,
+          pageTitle: 'Editing event : ' + event[0].dataValues.name,
+          item: event[0].dataValues,
+        });
+      })
   });
 
   // Patch event
-  app.post('/event/edit/:id', (req, res) => {
-    const query = new EventModel(req);
+  app.post('/event/edit/:uuid', (req, res) => {
+    const updatedEvent = {
+      name: req.body.name,
+      start_date: req.body.start_date,
+      end_date: req.body.end_date,
+      location: req.body.location.trim(),
+      description: req.body.description.trim(),
+    };
 
-    connDB.query(query.patchEvent(), (err, result) => {
-      if (result.affectedRows) {
-        res.redirect(baseURL)
-      };
-    });
+    Event.update(updatedEvent, { where: { uuid: req.params.uuid } })
+      .then(() => {
+        res.redirect(baseURL);
+      });
   });
 
   // Delete Event
-  app.get('/event/delete/:id', (req, res) => {
-    const query = new EventModel(req);
-
-    connDB.query(query.deleteEvent(), (err, result) => {
-      if (result.affectedRows) {
+  app.get('/event/delete/:uuid', (req, res) => {
+    Event.destroy({ where: { uuid: req.params.uuid } })
+      .then(() => {
         res.redirect(baseURL);
-      };
-    });
+      });
   });
 };

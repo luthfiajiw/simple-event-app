@@ -27,7 +27,7 @@ app.use(express.static(__dirname + '/public'))
 
 // Global site title and base url
 const siteTitle = "Simple Event App"
-const baseURL = "http://localhost:3000/"
+const baseURL = "http://localhost:3000/home"
 
 // Express session
 app.use(session({

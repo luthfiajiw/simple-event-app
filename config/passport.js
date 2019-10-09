@@ -38,7 +38,7 @@ module.exports = function(passport) {
   passport.deserializeUser((uuid, done) => {
     User.findAll({ where: { uuid: uuid } })
       .then(user => {
-        done(null, user)
+        done(null, user[0].dataValues)
       })
   })
 };
